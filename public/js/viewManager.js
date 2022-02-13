@@ -26,7 +26,6 @@ function _set_title(title){
 function _set_view(view, sub_view){
         if(!routes[view]){
             window.history.back();
-            _set_title(routes['404'].view);
         }else{
             if(sub_view){
                 if(routes[view].subViews){

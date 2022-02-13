@@ -1,7 +1,7 @@
 import Dispatcher from '/js/dispatcher.js';
 import API2 from '/js/API2.js'
 import ViewManager from '/js/viewManager.js';
-
+import '/js/nedb.js';
 
 //import all components
 import {MenuBarBottom} from '/components/MenuBarBottom.js';
@@ -27,11 +27,19 @@ import {Calculator} from '/components/Calculator.js';
 import {Calendar} from '/components/Calendar.js';
 //import all views
 import {DashboardView} from '/views/DashboardView.js';
+import {ClientsView} from '/views/ClientsView.js';
+import {NewClientView} from '/views/NewClientView.js';
 
 
 window.onload = () => {
     register_service_worker();
     register_views();
+    window.API2.new_db('clients');
+    window.API2.new_db('calendar_data');
+
+
+
+ 
 
     window.DP.on("VIEW_LOAD", () => {
         window.loadingSpinner.hide();
@@ -46,6 +54,28 @@ window.onload = () => {
                 document.body.style.paddingTop = "40px";
                 console.log(document.getElementsByTagName("menu-bar-top")[0])
                 document.getElementsByTagName("main-content")[0].style.top = "100px"
+
+                var inputs = document.getElementsByTagName('input');
+                for(var key in inputs){
+                    if(inputs[key].type == 'text'){
+                        input[key].touchstart = (e) => {
+                              // Bail if there's too little vertical space and scrolling is necessary
+                            if ((e.target.offsetTop + e.target.offsetHeight) / window.innerHeight > MAX_KEYBOARD_PROPORTION) return
+                            const MAX_KEYBOARD_PROPORTION = .52
+                            var offset = document.body.scrollTop;
+                            document.body.style.top = (offset * -1) + 'px';
+                            document.body.classList.add('prevent-ios-focus-scrolling');
+                            setTimeout(() => {
+                              // Undo it after 500ms, roughly the amount of time focus animation takes iOS
+                              offset = parseInt(document.body.style.top, 10);
+                              document.body.classList.remove('prevent-ios-focus-scrolling');
+                              document.body.scrollTop = (offset * -1);
+                            }, 500)
+                        }
+                    }
+                }
+                
+
             }
         }
     })
@@ -102,39 +132,24 @@ function register_views(){
 
     var routes = {
         "":{
-            primary_color: theme_primary_color,
-            secondary_color: theme_secondary_color,
-            title: 'Components',
-            view:`<components-view></components-view>`
+            title: "Dashboard",
+            view: `<dashboard-view></dashboard-view>`
         },
-        "Components":{
-            primary_color: theme_primary_color,
-            secondary_color: theme_secondary_color,
-            title:'Components',
-            view:'<components-view></components-view>'
+        "Dashboard":{
+            title: "Dashboard",
+            view: `<dashboard-view></dashboard-view>`
         },
-        "OtherMagic":{
-            primary_color: theme_primary_color,
-            secondary_color: theme_secondary_color,
-            title:'Other Magic',
-            view:`<other-magic-view></other-magic-view>`
-        },
-        "About":{
-            primary_color: theme_primary_color,
-            secondary_color: theme_secondary_color,
-            title:"Other Info",
-            view:`<other-info-view></other-info-view>`,
+        "Clients":{
+            title: "Clients",
+            view: `<clients-view></clients-view>`,
             subViews:{
-                "test":{
-                    title:'test view',
-                    view:'<other-info-view></other-info-view>'
-                },
-                "*":{
-                    title:'SUB VIEW',
-                    view:'<other-info-view></other-info-view>'
+                "New":{
+                    title:"New Client",
+                    view: `<new-client-view></new-client-view>`
                 }
             }
         }
+
     }
     
     window.VM.register(routes)

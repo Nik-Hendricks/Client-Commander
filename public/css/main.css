@@ -18,10 +18,11 @@
     --light-grey:#3A3B3C;
     --lightish-grey:#202122;
     --dark-grey:#18191A;
-    --global-border-radius:20px;
-    --global-margin:20px;
+    --global-border-radius:10px;
+    --global-margin:10px;
     --global-padding:20px;
     --global-input-height:35px;
+    --global-input-font-size:16px;
     --header-height:60px;
 
 
@@ -33,6 +34,12 @@
     --theme-hover-color:#3A3B3C;
     --theme-text-primary-color:#E4E6EB;
     --theme-text-secondary-color:#B0B3B8;
+}
+
+.prevent-ios-focus-scrolling {
+  position: fixed;
+  left: 0;
+  right: 0;
 }
 
 .brand-primary-color{
@@ -399,28 +406,33 @@ h1,h2,h3,p,a{
 }
 
 input[type="text"]{
-    height:30px;
+    height:var(--global-input-height);
     border-radius: var(--global-border-radius);
     border:none;
-    width:200px;
+    width:calc(100% - calc(var(--global-margin)  * 2));
     margin:auto;
-    background:var(--dark-grey);
+    background:var(--theme-card-color);
     color:var(--white);
+    margin-top:var(--global-margin);
+    margin-left:var(--global-margin);
+    outline:none;
+    padding-left:10px;
+    font-size:var(--global-input-font-size);
 }
 
 textarea{
+    margin-left:var(--global-margin);
     margin-top:var(--global-margin);
     border-radius: var(--global-border-radius);
     border:none;
-    background:var(--theme-hover-color);
+    background:var(--theme-card-color);
     color:var(--theme-text-primary-color);
     position: relative;
-    font-size: 15px;
-    width:100%;
+    font-size: var(--global-input-font-size);
+    width:calc(100% - calc(var(--global-margin)  * 2));
     outline:none;
     padding-left:10px;
     padding-top:10px;
-    right:7px;
     resize:none;
 }
 
@@ -619,9 +631,10 @@ textarea{
     margin:0px;
     color:var(--theme-text-primary-color);
     padding-left: 10px;
-    font-size:15px;
+    font-size:var(--global-input-font-size);
     position:relative;
-    right:7px;
+    margin-top:var(--global-margin);
+    
 }
 
 
@@ -677,14 +690,11 @@ textarea{
 
 
 .wide-button{
-    position: relative;
-    margin-top:10px;
-    margin-right:var(--global-margin);
+    width:calc(100% - calc(var(--global-margin) * 2));
+    margin-top:var(--global-margin);
     margin-left:var(--global-margin);
-    height:auto;
-    padding:10px;
-    font-size:20px;
-    background:var(--theme-card-color);
+    height:var(--global-input-height);
+    background:var(--theme-primary-color);
     border-radius:var(--global-border-radius);
     max-width:500px;
 }
@@ -698,20 +708,23 @@ textarea{
 }
 
 .wide-button span{
-    color:var(--theme-primary-color);
+    color:var(--theme-background-color);
     float:left;
     vertical-align: middle;
     padding:0px;
     margin:0px;
-    width:20px;
+    margin-left:10px;
+    width:var(--global-input-font-size);
+    line-height: var(--global-input-height);
 }
 
 .wide-button p{
     text-align: center !important;
     margin:auto;
-    color:var(--white);
+    color:var(--theme-background-color);
     width:unset;
-    font-size:20px;
+    font-size:var(--global-input-font-size);
+    line-height: var(--global-input-height);
 }
 
 .chip .material-icons,.chip .material-icons-outlined{
@@ -1122,16 +1135,36 @@ hr{
 
 .calendar-day.outline{
     border:1px solid var(--theme-text-primary-color);
+    width:calc(var(--calendar-btn-size) - 2px);
+    height:calc(var(--calendar-btn-size) - 2px);
 }
 
 .calendar-day.secondary{
-    background:var(--theme-card-color)
+    background:var(--theme-card-color);
 }
 
-.calendar-title{
+.calendar .title{
     text-align: center;
-    margin-bottom:5px;
+    margin:0px;
+    width:calc(100% - calc(39px * 2));
     text-transform: capitalize;
+    display: inline-block;
+}
+
+.prev-month{
+    display: inline-block;
+    margin:0px;
+    padding:0px;
+    margin-left:var(--global-margin);
+    color:var(--theme-primary-color);
+}
+
+.next-month{
+    display: inline-block;
+    margin:0px;
+    padding:0px;
+    margin-right:var(--global-margin);
+    color:var(--theme-primary-color);
 }
 
 .calendar-cols{
@@ -1158,10 +1191,7 @@ hr{
         margin-right:auto;
     }
 
-    .wide-button{
-        margin-left:auto;
-        margin-right:auto;
-    }
+
 
     
 }

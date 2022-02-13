@@ -1,6 +1,7 @@
 //api2.js
 const root_url = '/API'
 var store_items = [];
+var dbs = [];
 
 function _setCookie(cname, cvalue, exdays) {
     const d = new Date();
@@ -65,6 +66,10 @@ function _evaluate(expression){
     })
 }
 
+function _new_db(name){
+    dbs[name] = new Nedb({filename: `${name}.db`, autoload: true})
+}
+
 function reloadAPI(){
 
 }
@@ -77,10 +82,12 @@ function loadAPI(){
 
 setTimeout(() => {
     loadAPI();
+    
 }, 350);
 
 
 const API2 = {
+    databases: dbs,
     getCookie(cookie){
         return _getCookie(cookie)
     },
@@ -142,6 +149,10 @@ const API2 = {
                 resolve(res)
             })
         })
+    },
+
+    new_db(name){
+        _new_db(name);
     }
 }
 
