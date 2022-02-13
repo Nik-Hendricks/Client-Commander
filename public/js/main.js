@@ -26,10 +26,7 @@ import {CustomButton} from '/components/CustomButton.js'
 import {Calculator} from '/components/Calculator.js';
 import {Calendar} from '/components/Calendar.js';
 //import all views
-import {NotFoundView} from '/views/404View.js';
-import {ComponentsView} from '/views/ComponentsView.js';
-import {OtherMagicView} from '/views/OtherMagicView.js';
-import {OtherInfoView} from '/views/OtherInfoView.js';
+import {DashboardView} from '/views/DashboardView.js';
 
 
 window.onload = () => {
